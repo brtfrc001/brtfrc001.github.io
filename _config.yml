@@ -1,4 +1,4 @@
-title: daemoncub
+title: Raneem Almanon
 description: Blog
 author: "me"
 remote_theme: pages-themes/minimal@v0.2.0
@@ -9,4 +9,4 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   
-repository: "daemoncub/daemoncub.github.io"
+repository: "raneemalmanon/raneemalmanon.github.io"
