@@ -4,7 +4,7 @@ layout: default
 
 # Welcome! 
 
-This blog is for technical labs and write-ups.
+This blog is for my technical labs and write-ups.
 
 ## Recent Posts
 
