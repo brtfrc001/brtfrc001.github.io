@@ -4,7 +4,7 @@ layout: default
 
 # Welcome! 
 
-I logged everything for you.
+This blog is for technical labs and write-ups.
 
 ## Recent Posts
 
