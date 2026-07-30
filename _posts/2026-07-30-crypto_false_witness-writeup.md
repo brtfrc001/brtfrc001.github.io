@@ -110,9 +110,9 @@ Keeping that in mind, `H(msg)` function consists of three components to run a ma
 
 Because `G` is set to a loose condition `1 < G < P` , it allows me to send a bad generator `G` , you see a generator must be a primitive root to the modulus `P` so it has an order of `P-1` and that would be a proper condition for `G` and make it secure, however I sent `P-1` as the generator which is not a primitive root modulo `P` and worse it has a specific order which is in mathematical form:
 
-for a prime number $P$, $G = P-1$ and $0<x$:
+for a prime number $$P$$, $$G = P - 1$$ and $$0 < x$$:
 
-$G^x mod P = 1 or P-1$
+$$G^x \pmod P = 1 \text{ or } P - 1$$
 
 
 - whether the output is $1$ or $P-1$ depends on whether x is odd or even but it doesn't make a difference to the attack.
