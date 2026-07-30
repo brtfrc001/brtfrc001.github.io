@@ -126,7 +126,7 @@ The `oracle(self, i)` function, simply leaks the `KEY` bits by its logic. In lin
 
 Lastly, the possibility that `secrets.randbelow(2**N) if KEY_BITS[i] == 0` returns an integer in {1, P-1} is really low (probability = 2/2^N, N=256 in code line `N = sha256().digest_size * 8`), so we can **distinguish** between the bits simply just like that.
 
-Note: Having put together all the points, In short the bits are distinguishable because of the difference between $$2^256$$ and $$P-1^x \pmod P$$, it would have made it more difficult if any of the factors previously discussed were absent.
+Note: Having put together all the points, In short the bits are distinguishable because of the difference between $$2^{256}$$ and $$P-1^x \pmod P$$, it would have made it more difficult if any of the factors previously discussed were absent.
 
 ### Solver Script
 
