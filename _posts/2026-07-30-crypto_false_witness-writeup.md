@@ -5,6 +5,9 @@ date: 2026-07-30
 categories: [ctf, cryptography]
 tags: [ctf, writeup, cryptography, cyber-apocalypse]
 ---
+
+Hi, This is a writeup for a challenge I solved in a CTF by Hack The Box.
+
 Info:
 - **Challenge:** `crypto_false_witness`
 - **Category:** Cryptography
