@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Cyber Apocalypse CTF 2026: The Salt Crown — crypto_false_witness writeup"
+title: "Cyber Apocalypse CTF 2026: The Salt Crown — 'Crypto False Witness' write-up"
 date: 2026-07-30
 categories: [ctf, cryptography]
-tags: [ctf, writeup, cryptography, cyber-apocalypse]
+tags: [ctf, write-up, cryptography, cyber-apocalypse]
 ---
 
-Hi, This is a writeup for a challenge I solved in a CTF by Hack The Box.
+Hi, This is a write-up for a challenge I solved in a CTF by Hack The Box.
 
 Info:
 - **Challenge:** `crypto_false_witness`
