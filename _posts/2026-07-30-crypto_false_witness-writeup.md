@@ -1,19 +1,19 @@
 ---
 layout: post
-title: "Cyber Apocalypse CTF 2026: The Salt Crown — crypto_false_witness"
+title: "Cyber Apocalypse CTF 2026: The Salt Crown — crypto_false_witness writeup"
 date: 2026-07-30
 categories: [ctf, cryptography]
 tags: [ctf, writeup, cryptography, cyber-apocalypse]
 ---
-
-# Cyber Apocalypse CTF 2026 — crypto_false_witness
-
+Info:
 - **Challenge:** `crypto_false_witness`
 - **Category:** Cryptography
 - **Difficulty:** Very Easy
 - **Summary:** A server leaks key bits one by one and the user dynamically retrieves them.
 
 ## Challenge code in server.py
+
+Note: Preferably read the code before reading the writeup.
 
 ```python
 from hashlib import sha256
@@ -119,9 +119,9 @@ making the output a very small set of {1, P-1} that represents the encrypted `sk
 
 ### Thirdly
 
-And so, the line `ret = secrets.randbelow(2**N) if KEY_BITS[i] == 0 else PK[i % len(PK)][secrets.randbelow(2)]` from `oracle(self, i)` function takes an offset from user and returns a number based on the offset's bit value (0 or 1) in `KEY`. it will return a random number as per  `randbelow(2**N)`, when the bit is equal to 0, otherwise it returns an integer of a tuple (n1, n2) in `pk` list by mapping the offset to the first index and then picks randomly between {0,1} as the second index as in the code line `PK[i % len(PK)][secrets.randbelow(2)]` in `oracle(self, i)` function, and the number returned -as mentioned before- is a predicted value in {1, P-1}.
+The `oracle(self, i)` function, simply leaks the `KEY` bits by its logic. In line `ret = secrets.randbelow(2**N) if KEY_BITS[i] == 0 else PK[i % len(PK)][secrets.randbelow(2)]` it takes an offset from user and returns a *number* based on the offset's bit value (0 or 1) in `KEY`. it will return a random *number* as per  `randbelow(2**N)`, when the bit is equal to 0, otherwise it returns an integer of a tuple (n1, n2) in `pk` list by mapping the offset to the first index and then picks randomly between {0,1} as the second index as in the code line `PK[i % len(PK)][secrets.randbelow(2)]` in `oracle(self, i)` function, and the *number* returned -as mentioned before- is a predicted value in {1, P-1}.
 
-Lastly, the possibility that `secrets.randbelow(2**N) if KEY_BITS[i] == 0` returns an integer in {1, P-1} is really low (probability = 2/2^N, N=256 in code line `N = sha256().digest_size * 8`), so we can distinguish between the bits simply just like that.
+Lastly, the possibility that `secrets.randbelow(2**N) if KEY_BITS[i] == 0` returns an integer in {1, P-1} is really low (probability = 2/2^N, N=256 in code line `N = sha256().digest_size * 8`), so we can **distinguish** between the bits simply just like that.
 
 ### Solver Script
 
