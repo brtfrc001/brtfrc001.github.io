@@ -3,6 +3,10 @@ description: Write-ups & Labs
 author: "me"
 remote_theme: pages-themes/minimal@v0.2.0
 
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
