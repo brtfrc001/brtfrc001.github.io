@@ -4,7 +4,7 @@ layout: default
 
 # Welcome!
 
-This is my personal website and portfolio, where I share technical labs, write-ups, and projects.
+This is my personal website, where I share technical labs, write-ups, and projects.
 
 ## Recent Posts
 
