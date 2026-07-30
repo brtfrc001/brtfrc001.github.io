@@ -108,7 +108,7 @@ would make it impossible for me to guess what to send as the generator in `H(msg
 
 Keeping that in mind, `H(msg)` function consists of three components to run a mathematical equation, one of which is a critical input `G` or the "generator" in `pow(G, msg, P)` received from user (me) , that is the second thing that made the attack possible.
 
-Because `G` is set to a loose condition `1 < G < P` , it allows me to send a bad generator `G` , you see a generator must be a primitive root to the modulus `P` so it has an order of `P-1` and that would be a proper condition for `G` and make it secure, however I sent `P-1` as the generator which is not a primitive root modulo `P` and worse it has a specific order which is in mathematical form:
+Because `G` is set to a loose condition `1 < G < P` , it allows me to send a bad generator `G` , you see a generator must be a primitive root to the modulus `P` so it has an order of `P-1` and that would be a proper condition for `G` and make it secure (or at least harder for the attacker in this context), however I sent `P-1` as the generator which is not a primitive root modulo `P` and worse it has a specific order which is in mathematical form:
 
 for a prime number $$P$$, $$G = P - 1$$ and $$0 < x$$:
 
@@ -125,6 +125,8 @@ making the output a very small set of {1, P-1} that represents the encrypted `sk
 The `oracle(self, i)` function, simply leaks the `KEY` bits by its logic. In line `ret = secrets.randbelow(2**N) if KEY_BITS[i] == 0 else PK[i % len(PK)][secrets.randbelow(2)]` it takes an offset from user and returns a *number* based on the offset's bit value (0 or 1) in `KEY`. it will return a random *number* as per  `randbelow(2**N)`, when the bit is equal to 0, otherwise it returns an integer of a tuple (n1, n2) in `pk` list by mapping the offset to the first index and then picks randomly between {0,1} as the second index as in the code line `PK[i % len(PK)][secrets.randbelow(2)]` in `oracle(self, i)` function, and the *number* returned -as mentioned before- is a predicted value in {1, P-1}.
 
 Lastly, the possibility that `secrets.randbelow(2**N) if KEY_BITS[i] == 0` returns an integer in {1, P-1} is really low (probability = 2/2^N, N=256 in code line `N = sha256().digest_size * 8`), so we can **distinguish** between the bits simply just like that.
+
+Note: Having put together all the points, In short the bits are distinguishable because of the difference between $$2^256$$ and $$P-1^x \pmod P$$, it would have made it more difficult if any of the factors previously discussed were absent.
 
 ### Solver Script
 
