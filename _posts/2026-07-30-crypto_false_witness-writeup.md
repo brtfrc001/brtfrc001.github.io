@@ -115,7 +115,7 @@ for a prime number $$P$$, $$G = P - 1$$ and $$0 < x$$:
 $$G^x \pmod P = 1 \text{ or } P - 1$$
 
 
-- whether the output is $1$ or $P-1$ depends on whether x is odd or even but it doesn't make a difference to the attack.
+- whether the output is $$1$$ or $$P-1$$ depends on whether x is odd or even but it doesn't make a difference to the attack.
 - x is `msg` in `H(msg)` function.
 
 making the output a very small set of {1, P-1} that represents the encrypted `sk` or `pk`. In other words, every number in every tuple (n1, n2) in `pk` equals to either `1` or `P-1`, it looks something like this: [(1,P-1),(1,1)...]. it's true that I don't have `sk`, but the thing is I don't need it thanks to `oracle(self, i)` function.
