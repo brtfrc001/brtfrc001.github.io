@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Cyber Apocalypse CTF 2026: The Salt Crown — 'Crypto False Witness' write-up"
-date: 2026-07-30
+author: "me"
 categories: [ctf, cryptography]
 tags: [ctf, write-up, cryptography, cyber-apocalypse]
 ---
