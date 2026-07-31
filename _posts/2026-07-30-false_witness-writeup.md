@@ -92,7 +92,7 @@ while True:
 
 ### Intro
 
-I will explain the attack simultaneously as I am explaining the server's code and code vulnerabilities, also the solver script at the end will explain itself but I put comments that remind of what I explained.
+I will explain the attack simultaneously as I am explaining the server's code and code vulnerabilities, also the solver script at the end will explain itself but I put comments that remind of what I discuss in the write-up.
 
 ### Firstly
 
