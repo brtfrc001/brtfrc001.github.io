@@ -102,7 +102,7 @@ The first thing that made the attack possible. if this was randomized, like:
 from Crypto.Util.number import getPrime
 P = getPrime(512)
 ```
-would make it impossible for me to guess what to send as the generator in `H(msg)` function as per line code `G = int(input("Before we start, give me the hashing generator: "))`. before talking about `H(msg)` function, let's point out what it was used for, it is used in `keygen()` function to "encrypt" every tuple in `sk` and save it in `pk`as per the line code `pk = [(H(s[0]), H(s[1])) for s in sk]`.
+would make it impossible for me to guess what to send as the generator in `H(msg)` function as per line code `G = int(input("Before we start, give me the hashing generator: "))`. before talking about `H(msg)` function, let's point out what it was used for, it is used in `keygen()` function to "encrypt" every tuple in `sk` and save it in `pk` as per the line code `pk = [(H(s[0]), H(s[1])) for s in sk]`.
 
 ### Secondly
 
@@ -116,13 +116,13 @@ $$G^x \pmod P = 1 \text{ or } P - 1$$
 
 
 - whether the output is $$1$$ or $$P-1$$ depends on whether x is odd or even but it doesn't make a difference to the attack.
-- x is `msg` in `H(msg)` function.
+- $$x$$ is `msg` in `H(msg)` function.
 
-making the output a very small set of {1, P-1} that represents the encrypted `sk` or `pk`. In other words, every number in every tuple (n1, n2) in `pk` equals to either `1` or `P-1`, it looks something like this: [(1,P-1),(1,1)...]. it's true that I don't have `sk`, but the thing is I don't need it thanks to `oracle(self, i)` function.
+making the output a very small set of {1, P-1} that represents the encrypted `sk` or `pk`. In other words, every number in every tuple (n1, n2) in `pk` equals to either `1` or `P-1`, it looks something like this: [(1,P-1),(1,1)...]. It's true that I don't have `sk`, but the thing is I don't need it thanks to `oracle(self, i)` function.
 
 ### Thirdly
 
-The `oracle(self, i)` function, simply leaks the `KEY` bits by its logic. In line `ret = secrets.randbelow(2**N) if KEY_BITS[i] == 0 else PK[i % len(PK)][secrets.randbelow(2)]` it takes an offset from user and returns a *number* based on the offset's bit value (0 or 1) in `KEY`. it will return a random *number* as per  `randbelow(2**N)`, when the bit is equal to 0, otherwise it returns an integer of a tuple (n1, n2) in `pk` list by mapping the offset to the first index and then picks randomly between {0,1} as the second index as in the code line `PK[i % len(PK)][secrets.randbelow(2)]` in `oracle(self, i)` function, and the *number* returned -as mentioned before- is a predicted value in {1, P-1}.
+The `oracle(self, i)` function, simply leaks the `KEY` bits by its logic. In line `ret = secrets.randbelow(2**N) if KEY_BITS[i] == 0 else PK[i % len(PK)][secrets.randbelow(2)]` it takes an offset from user and returns a *number* based on the offset's bit value (0 or 1) in `KEY`. It will return a random *number* as per  `randbelow(2**N)`, when the bit is equal to 0, otherwise it returns an integer of a tuple (n1, n2) in `pk` list by mapping the offset to the first index and then picks randomly between {0,1} as the second index as in the code line `PK[i % len(PK)][secrets.randbelow(2)]` in `oracle(self, i)` function, and the *number* returned - as mentioned before - is a predicted value in {1, P-1}.
 
 Lastly, the possibility that `secrets.randbelow(2**N) if KEY_BITS[i] == 0` returns an integer in {1, P-1} is really low (probability = 2/2^N, N=256 in code line `N = sha256().digest_size * 8`), so we can **distinguish** between the bits simply just like that.
 
