@@ -177,13 +177,13 @@ except ValueError as e:
 
 The virtual machine which I ran this on had a bit of a problem and was reset, but fortunately I captured the output from my phone.
 
-<video controls autoplay loop muted playsinline poster="/assets/img/ctf/crypto_false_witness/solver_capture_poster.png">
-  <source src="assets/videos/ctf/false_witness_writeup_solver_output.mp4" type="video/mp4">
+<video controls autoplay loop muted playsinline>
+  <source src="/assets/videos/ctf/false_witness_writeup_solver_output.mp4" type="video/mp4">
 </video>
 
 However I ran it again in the "Cyber Apocalypse CTF 2026: The Salt Crown - After Party":
 
-![screenshot](assets/images/ctf/false_witness_writeup_screenshot.png)
+![screenshot](/assets/images/ctf/false_witness_writeup_screenshot.png)
 
 the flag: `HTB{__l34k1ng_b1ts_0n3_by_0n3__}`
 
