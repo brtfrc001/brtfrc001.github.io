@@ -9,7 +9,7 @@ tags: [ctf, write-up, cryptography, cyber-apocalypse]
 Hi, This is a write-up for a challenge I solved in a CTF by Hack The Box.
 
 Info:
-- **Challenge:** `false_witness`
+- **Challenge:** `False Witness`
 - **Category:** Cryptography
 - **Difficulty:** Very Easy
 - **Summary:** A server leaks key bits one by one and the user dynamically retrieves them.
