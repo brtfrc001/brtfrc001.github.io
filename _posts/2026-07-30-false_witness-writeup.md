@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Cyber Apocalypse CTF 2026: The Salt Crown — 'Crypto False Witness' write-up"
+title: "Cyber Apocalypse CTF 2026: The Salt Crown — 'False Witness' write-up"
 author: "me"
 categories: [ctf, cryptography]
 tags: [ctf, write-up, cryptography, cyber-apocalypse]
@@ -9,7 +9,7 @@ tags: [ctf, write-up, cryptography, cyber-apocalypse]
 Hi, This is a write-up for a challenge I solved in a CTF by Hack The Box.
 
 Info:
-- **Challenge:** `crypto_false_witness`
+- **Challenge:** `false_witness`
 - **Category:** Cryptography
 - **Difficulty:** Very Easy
 - **Summary:** A server leaks key bits one by one and the user dynamically retrieves them.
@@ -177,7 +177,13 @@ except ValueError as e:
 
 The virtual machine which I ran this on had a bit of a problem and was reset, but fortunately I captured the output from my phone.
 
-![solver output](/assets/img/solver_capture_crypto_false_witness_writeup.gif)
+<video controls autoplay loop muted playsinline poster="/assets/img/ctf/crypto_false_witness/solver_capture_poster.png">
+  <source src="assets/videos/ctf/false_witness_writeup_solver_output.mp4" type="video/mp4">
+</video>
+
+However I ran it again in the "Cyber Apocalypse CTF 2026: The Salt Crown - After Party":
+
+![screenshot](assets/images/ctf/false_witness_writeup_screenshot.png)
 
 the flag: `HTB{__l34k1ng_b1ts_0n3_by_0n3__}`
 
