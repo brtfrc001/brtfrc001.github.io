@@ -14,6 +14,10 @@ Info:
 - **Difficulty:** Very Easy
 - **Summary:** A server leaks key bits one by one and the user dynamically retrieves them.
 
+## Challenge Description
+
+"Caldrin Vowmark knows that not every seal deserves belief. Some marks still carry the weight of a living vow; others only imitate one well enough to pass a glance. She can question the realm's witnesses as many times as she likes, but certainty, it turns out, is much harder to earn than a convincing lie."
+
 ## Challenge code in server.py
 
 Note: Preferably read the code before reading the writeup.
