@@ -177,7 +177,7 @@ except ValueError as e:
 
 The virtual machine which I ran this on had a bit of a problem and was reset, but fortunately I captured the output from my phone.
 
-<video controls autoplay loop muted playsinline>
+<video controls autoplay loop muted playsinline style="max-width: 100%; height: auto;">
   <source src="/assets/videos/ctf/false_witness_writeup_solver_output.mp4" type="video/mp4">
 </video>
 
