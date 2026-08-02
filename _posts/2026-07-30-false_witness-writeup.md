@@ -92,7 +92,7 @@ while True:
 
 ### Intro
 
-I will explain the attack simultaneously as I am explaining the server's code and code vulnerabilities, also the solver script at the end will explain itself but I put comments that remind of what I discuss in the write-up.
+I will explain the attack simultaneously as I am explaining the server's code and code vulnerabilities, also the solver script at the end will explain itself but I put comments that remind of what I discuss in the writeup.
 
 ### Firstly
 
@@ -100,13 +100,13 @@ I will explain the attack simultaneously as I am explaining the server's code an
 P = 0xCD4A96D3B7FA7251A1BB765933FB676FCAE8C9026682E34F779122DFD66915BB
 ```
 
-The first thing that made the attack possible. if this was randomized, like:
+The first thing that made the attack possible, and if it was randomized, like:
 
 ```python
 from Crypto.Util.number import getPrime
 P = getPrime(512)
 ```
-would make it impossible for me to guess what to send as the generator in `H(msg)` function as per line code `G = int(input("Before we start, give me the hashing generator: "))`. before talking about `H(msg)` function, let's point out what it was used for, it is used in `keygen()` function to "encrypt" every tuple in `sk` and save it in `pk` as per the line code `pk = [(H(s[0]), H(s[1])) for s in sk]`.
+would make it impossible for me to guess what to send as the generator in `H(msg)` function as per line code `G = int(input("Before we start, give me the hashing generator: "))`. Before talking about `H(msg)` function, let's point out what it was used for, it is used in `keygen()` function to "encrypt" every tuple in `sk` and save it in `pk` as per the line code `pk = [(H(s[0]), H(s[1])) for s in sk]`.
 
 ### Secondly
 
