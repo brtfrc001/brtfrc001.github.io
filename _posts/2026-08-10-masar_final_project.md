@@ -65,7 +65,7 @@ The primary evidence source for this report is `final project v2 note.md`. Scree
 
 The assignment lab used three VMs connected on the same internal network. VM3 generated the attack traffic, VM1 hosted the vulnerable application and local logs, and VM2 received those logs through Wazuh.
 
-![](Final%20Project_files/pasted-data-imageacaacb_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageacaacb_ryNe.png)
 
 ## 2.2 Virtual Machine Inventory
 
@@ -77,7 +77,7 @@ The assignment lab used three VMs connected on the same internal network. VM3 ge
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image57d7d7_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image57d7d7_ryNe.png)
 
 ## 2.3 VM1 Target Application Build
 
@@ -85,21 +85,21 @@ VM1 hosted the TechNest application under `/var/www/html/app`. The saved build e
 
 Service validation evidence:
 
-![](Final%20Project_files/pasted-data-image636f17_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image636f17_ryNe.png)
 
 Database and application structure evidence:
 
-![](Final%20Project_files/pasted-data-imagea583d2_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagea583d2_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagebc3940_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagebc3940_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image6382f7_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image6382f7_ryNe.png)
 
 HTTPS configuration evidence:
 
-![](Final%20Project_files/pasted-data-imagef6e398_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagef6e398_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageba1db3_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageba1db3_ryNe.png)
 
 ## 2.4 Baseline Functional Verification
 
@@ -107,21 +107,21 @@ Before exploitation, the application was tested in its normal state. The evidenc
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image48bca4_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image48bca4_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imaged5e1a4_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imaged5e1a4_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image326507_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image326507_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image542ca5_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image542ca5_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image29dd1c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image29dd1c_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image11c61a_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image11c61a_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imaged07207_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imaged07207_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec8990e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec8990e_ryNe.png)
 
 ## 2.5 Intentional Vulnerability Baseline
 
@@ -138,15 +138,15 @@ The vulnerable baseline was preserved in Git with tag `v1.0-vulnerable-baseline`
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imageceaf9c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageceaf9c_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagea859e8_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagea859e8_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image015fb9_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image015fb9_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagea1ae73_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagea1ae73_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image4fa269_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image4fa269_ryNe.png)
 
 ## 2.6 VM2 Wazuh Deployment
 
@@ -154,13 +154,13 @@ VM2 hosted the monitoring stack required by the assignment. The Wazuh dashboard,
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image2b7456_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image2b7456_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec8f8de_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec8f8de_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8d7458_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8d7458_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagee4fb65_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagee4fb65_ryNe.png)
 
 ## 2.7 VM1 Log Forwarding To Wazuh
 
@@ -176,9 +176,9 @@ Bash command logging was configured through `/etc/bash.bashrc` with `PROMPT_COMM
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image23ea24_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image23ea24_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image88e99b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image88e99b_ryNe.png)
 
 ## 2.8 Archive Visibility In Wazuh
 
@@ -186,11 +186,11 @@ The Wazuh archive requirement was satisfied by enabling archive visibility and u
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image3d1f27_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image3d1f27_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagea052f4_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagea052f4_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8044f0_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8044f0_ryNe.png)
 
 ## 2.9 Section 2 Summary
 
@@ -253,25 +253,25 @@ Network enumeration was performed with `nmap`. The scan identified the web servi
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imagead66e7_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagead66e7_ryNe.png)
 
 Directory enumeration was performed with `gobuster` to identify accessible paths and application routes.
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imagecf43aa_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagecf43aa_ryNe.png)
 
 Manual browsing confirmed the main application pages, including login, product pages, account upload, search, and diagnostics/order tracking.
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image7f64af_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image7f64af_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageaddafd_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageaddafd_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagefbf03e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagefbf03e_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image98f1aa_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image98f1aa_ryNe.png)
 
 ## 3.3 Vulnerability Assessment
 
@@ -292,7 +292,7 @@ Server: Apache/2.4.66 (Debian)
 Cookie: PHPSESSID=<session-id>
 ```
 
-![](Final%20Project_files/pasted-data-image5b57be_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image5b57be_ryNe.png)
 
 The login form accepts `username` and `password` fields:
 
@@ -308,21 +308,21 @@ Input testing showed that a backslash and single quote caused HTTP 500 errors, w
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image6c7b5d_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image6c7b5d_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagea1f8ae_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagea1f8ae_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image3968ad_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image3968ad_ryNe.png)
 
 The payload `admin' -- -` bypassed authentication and logged into the application without needing the correct password.
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image7d3f99_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image7d3f99_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8ec8b5_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8ec8b5_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec694da_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec694da_ryNe.png)
 
 Additional testing with an always-true condition returned a successful redirect response:
 
@@ -332,7 +332,7 @@ admin' or 1=1 -- -
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image053ab6_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image053ab6_ryNe.png)
 
 The HTTP `302` response confirms that the SQL condition evaluated to true and a row was returned, but the authenticated session was not usable in this case because `login.php` uses the first matching row directly and the attacker had no control over which row was returned. The `admin' -- -` payload is the reliable bypass because it targets a known username explicitly.
 
@@ -363,7 +363,7 @@ The product page included a review form. Submitting script content in the review
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image448269_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image448269_ryNe.png)
 
 Initial XSS proof:
 
@@ -373,9 +373,9 @@ Initial XSS proof:
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image59dc87_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image59dc87_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image6bb7c2_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image6bb7c2_ryNe.png)
 
 An attempted cookie theft payload was submitted:
 
@@ -385,29 +385,29 @@ An attempted cookie theft payload was submitted:
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image74a47e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image74a47e_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image9deb71_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image9deb71_ryNe.png)
 
 The browser blocked the HTTP exfiltration attempt from the HTTPS application context as mixed content.
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imageaa01d5_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageaa01d5_ryNe.png)
 
 HTTP listener setup for the follow-on tests:
 
-![](Final%20Project_files/pasted-data-image015a53_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image015a53_ryNe.png)
 
 To demonstrate the stored nature of the vulnerability, the victim user `john` logged in and loaded the affected product page. The payload fired in the victim's browser context without any action from the attacker beyond the initial malicious review submission.
 
 Victim user `john` login:
 
-![](Final%20Project_files/pasted-data-imageb90082_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb90082_ryNe.png)
 
 Victim user `john` loading the affected product page:
 
-![](Final%20Project_files/pasted-data-image5c0561_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image5c0561_ryNe.png)
 
 After the first `fetch()` payload was blocked by mixed content, three more payloads were attempted in sequence:
 
@@ -419,7 +419,7 @@ Payload 2 - image object over HTTP:
 
 Result: still blocked by mixed content enforcement.
 
-![](Final%20Project_files/pasted-data-imaged2e67b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imaged2e67b_ryNe.png)
 
 Payload 3 - image object over HTTPS with self-signed listener:
 
@@ -431,7 +431,7 @@ Result: browser rejected the self-signed certificate, TLS handshake failed.
 
 Due to constraints within the lab environment, self-signed certificates were used; however, in a real-world attack scenario, an adversary can easily register a custom domain and obtain a valid TLS/SSL certificate from a trusted Certificate Authority (CA).
 
-![](Final%20Project_files/pasted-data-image06cef1_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image06cef1_ryNe.png)
 
 Payload 4 - image error handler over HTTPS:
 
@@ -441,9 +441,9 @@ Payload 4 - image error handler over HTTPS:
 
 Result: same TLS certificate rejection.
 
-![](Final%20Project_files/pasted-data-imageb74e6f_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb74e6f_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image5ebe61_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image5ebe61_ryNe.png)
 
 This still validated the stored XSS vulnerability because JavaScript executed in the victim browser context even though cookie exfiltration was prevented by transport security controls.
 
@@ -481,9 +481,9 @@ Payload file:
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image1b894f_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image1b894f_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageff5b9b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageff5b9b_ryNe.png)
 
 The uploaded file was reachable in the web-accessible uploads directory and accepted a command through the `cmd` query parameter.
 
@@ -495,9 +495,9 @@ https://10.10.10.6/uploads/shell.php?cmd=ls
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image1bf0c2_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image1bf0c2_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec7ab3e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec7ab3e_ryNe.png)
 
 Burp Suite Repeater was used to validate command execution:
 
@@ -509,21 +509,21 @@ https://10.10.10.6/uploads/shell.php?cmd='ip+a'
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image2cb1c1_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image2cb1c1_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image298162_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image298162_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image24d093_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image24d093_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageba693d_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageba693d_ryNe.png)
 
 A reverse shell attempt through this webshell did not succeed. The error showed that the PHP `system()` argument handling or URL encoding caused the command to be empty, and the shell did not connect through that path.
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image3c469c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image3c469c_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8d3dbf_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8d3dbf_ryNe.png)
 
 Risk rating: Critical
 
@@ -559,7 +559,7 @@ Payload:
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image926c59_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image926c59_ryNe.png)
 
 This confirmed RCE through the diagnostics feature.
 
@@ -614,11 +614,11 @@ The command injection field was used to trigger a reverse shell to the attacker 
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-image49e688_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image49e688_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagedfdcca_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagedfdcca_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageb04a4e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb04a4e_ryNe.png)
 
 ### 3.4.3 Proof Of Access
 
@@ -632,7 +632,7 @@ ip a
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imageac661d_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageac661d_ryNe.png)
 
 This satisfied the project requirement to achieve RCE and obtain an interactive command shell on VM1.
 
