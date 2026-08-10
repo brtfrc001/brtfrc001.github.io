@@ -3,91 +3,57 @@ layout: default
 ---
 
 <style>
-.post-container {
-  display: flex;
-  gap: 2rem;
-}
-
-.post-toc {
-  flex: 0 0 250px;
-  position: sticky;
-  top: 20px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-}
-
-.post-toc nav {
+.header-toc nav {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 1rem;
   font-size: 0.9rem;
+  margin-top: 1rem;
 }
 
-.post-toc nav ul {
+.header-toc nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.post-toc nav ul ul {
+.header-toc nav ul ul {
   padding-left: 1rem;
   margin-top: 0.25rem;
 }
 
-.post-toc nav li {
+.header-toc nav li {
   margin: 0.25rem 0;
 }
 
-.post-toc nav a {
+.header-toc nav a {
   color: #2d5016;
   text-decoration: none;
 }
 
-.post-toc nav a:hover {
+.header-toc nav a:hover {
   text-decoration: underline;
 }
 
-.post-content {
-  flex: 1;
-  min-width: 0;
-}
-
-@media (max-width: 768px) {
-  .post-container {
-    flex-direction: column;
-  }
-  
-  .post-toc {
-    flex: 1;
-    position: static;
-    max-height: none;
-  }
-  
-  .post-toc nav {
-    margin-bottom: 1rem;
-  }
+.header-toc h4 {
+  margin: 0 0 0.5rem 0;
 }
 </style>
 
-<div class="post-container">
-  <div class="post-toc" id="toc-container"></div>
-  <div class="post-content">
-    <small>{{ page.date | date: "%d %B %Y" }}</small>
-    {{ content }}
-  </div>
-</div>
+<small>{{ page.date | date: "%d %B %Y" }}</small>
+{{ content }}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const content = document.querySelector('.post-content');
-  const tocContainer = document.getElementById('toc-container');
+  const section = document.querySelector('section');
+  const headerTocContainer = document.getElementById('header-toc');
   
   // Get all headings from the content
-  const headings = content.querySelectorAll('h2, h3, h4');
+  const headings = section.querySelectorAll('h2, h3, h4');
   
   if (headings.length === 0) {
-    tocContainer.style.display = 'none';
+    headerTocContainer.style.display = 'none';
     return;
   }
   
@@ -142,11 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
   if (headings.length > 0) {
     const title = document.createElement('h4');
     title.textContent = 'Contents';
-    title.style.margin = '0 0 0.5rem 0';
-    tocContainer.appendChild(title);
-    tocContainer.appendChild(nav);
+    headerTocContainer.appendChild(title);
+    headerTocContainer.appendChild(nav);
   } else {
-    tocContainer.style.display = 'none';
+    headerTocContainer.style.display = 'none';
   }
 });
 </script>
