@@ -55,10 +55,6 @@ layout: default
   text-decoration: underline;
 }
 
-.post-toc-container h4 {
-  margin: 0 0 0.5rem 0;
-}
-
 @media (max-width: 900px) {
   .post-wrapper {
     grid-template-columns: 1fr;
@@ -144,9 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Add the nav to the container
   if (headings.length > 0) {
-    const title = document.createElement('h4');
-    title.textContent = 'Contents';
-    tocContainer.appendChild(title);
     tocContainer.appendChild(nav);
   } else {
     tocContainer.style.display = 'none';
