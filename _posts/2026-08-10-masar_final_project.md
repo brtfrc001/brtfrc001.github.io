@@ -16,7 +16,7 @@ This assignment report intentionally does not include persistence or backdoor cr
 
 ---
 
-# Section 1: Assignment Context
+# 1. Assignment Context
 
 ## 1.1 Assignment Lab Overview
 
@@ -59,7 +59,7 @@ The primary evidence source for this report is `final project v2 note.md`. Scree
 
 ---
 
-# Section 2: Lab Infrastructure And Build
+# 2. Lab Infrastructure And Build
 
 ## 2.1 Lab Topology
 
@@ -198,7 +198,7 @@ By the end of the build phase, the assignment lab had a working vulnerable appli
 
 ---
 
-# Section 3: Penetration Testing Report
+# 3. Penetration Testing Report
 
 ## 3.1 Engagement Overview
 
@@ -659,7 +659,7 @@ Priority fixes:
 4. Encode all user-generated review output.
 5. Keep Wazuh logging enabled during re-tests so blocked attempts remain visible.
 
-# Section 4: Incident Response And Detection
+# 4. Incident Response And Detection
 
 ## 4.1 Investigation Methodology
 
@@ -990,7 +990,7 @@ All five detection queries return results. The application blocks re-exploitatio
 
 ---
 
-# Section 5: Mitigation And Re-Exploitation
+# 5. Mitigation And Re-Exploitation
 
 ## 5.1 Version Control Setup
 
