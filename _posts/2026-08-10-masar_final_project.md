@@ -659,5 +659,641 @@ Priority fixes:
 4. Encode all user-generated review output.
 5. Keep Wazuh logging enabled during re-tests so blocked attempts remain visible.
 
+# Section 4: Incident Response And Detection
+
+## 4.1 Investigation Methodology
+
+The incident response phase used Wazuh on VM2 to reconstruct the attack against VM1. VM1 forwards Apache application logs and bash command logs through the Wazuh agent named `vm1-technest`.
+
+The investigation followed a structured path:
+
+1. Confirm the telemetry path is healthy: VM1 agent connected, archive indexing enabled, and the correct Wazuh data view selected.
+2. Start with a broad archive query for all VM1 Apache events to scope the time window and routes involved.
+3. Pivot to route-specific queries for `login.php`, `product.php`, `account.php`, `shell.php`, and `diagnostics.php`.
+4. Correlate those route hits with the saved offensive evidence and the bash command log from VM1.
+5. Remove the confirmed attacker artifact and check common persistence locations.
+6. Re-run representative blocked tests after patching and confirm that Wazuh still logs the attempts.
+
+During the final completion work, the VM addresses had changed by DHCP:
+
+```text
+VM1 Target/Agent: 192.168.230.133
+VM2 Wazuh:        192.168.230.134
+VM3 Attacker:     192.168.230.130
+```
+
+VM1 still had the old Wazuh manager address `10.10.10.9` in `/var/ossec/etc/ossec.conf`, so the agent was active locally but not connected to VM2. The manager address was updated to `192.168.230.134`, `wazuh-agent` was restarted, and VM2 confirmed the agent was Active again:
+
+```text
+Wazuh agent_control. List of available agents:
+ID: 000, Name: debian (server), IP: 127.0.0.1, Active/Local
+ID: 001, Name: vm1-technest, IP: any, Active
+```
+
+Forwarded log sources used for investigation:
+
+```javascript
+/var/log/apache2/vulnapp_access.log
+/var/log/apache2/vulnapp_error.log
+/var/log/bash_commands.log
+```
+
+The raw archive data view required in Wazuh Discover is:
+
+```text
+wazuh-archives-4.x-*
+```
+
+This archive view is the correct starting point because it preserves the raw forwarded events instead of only higher-level alert records.
+
+Representative evidence from the original SIEM setup and log forwarding:
+
+![](Final%20Project_files/pasted-data-image23ea24_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image88e99b_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image3d1f27_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image8044f0_ryNe.png)
+
+## 4.2 SIEM-Based Timeline Reconstruction
+
+### 4.2.1 Apache Log Analysis
+
+The investigation began with a broad scoping query across VM1 Apache access logs:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log"
+```
+
+This query is used first to verify that the correct agent is sending web events and to identify the time window, source IP, HTTP methods, status codes, and routes involved. After that scoping step, the investigation pivots to the vulnerable routes.
+
+![](Final%20Project_files/pasted-data-imagee4853c_ryNe.png)
+
+Wazuh archives contained historical attack evidence for the following routes:
+
+```text
+POST /login.php
+POST /account.php
+GET /uploads/shell.php?cmd=...
+POST /diagnostics.php
+```
+
+Example counts from Wazuh archive indexing:
+
+```text
+POST /login.php:        63
+POST /product.php:      19
+POST /account.php:       2
+shell.php:              45
+POST /diagnostics.php:   9
+```
+
+Important limitation: Apache access logs show HTTP method, route, status code, source IP, and user agent. They do not show POST body fields by default, so SQLi and stored XSS payload content must be correlated from Burp/browser screenshots and route timing rather than claimed directly from raw Apache POST bodies.
+
+Route-specific investigation queries:
+
+```text
+agent.name: "vm1-technest" and full_log: "POST /login.php"
+```
+
+```text
+agent.name: "vm1-technest" and full_log: "POST /product.php"
+```
+
+```text
+agent.name: "vm1-technest" and full_log: "POST /account.php"
+```
+
+```text
+agent.name: "vm1-technest" and full_log: "shell.php"
+```
+
+```text
+agent.name: "vm1-technest" and full_log: "POST /diagnostics.php"
+```
+
+This route-first query sequence is the correct investigation method for this lab because it relies on fields that are actually visible in the collected logs.
+
+### 4.2.2 Bash History Analysis
+
+Bash command evidence is searched with:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/bash_commands.log"
+```
+
+The saved Wazuh evidence shows bash command forwarding was working, including administrative and investigation commands executed on VM1. This source is used after the Apache scoping step to confirm post-compromise activity and later containment actions on the server.
+
+Representative Wazuh bash evidence:
+
+![](Final%20Project_files/pasted-data-image02a767_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image00d01a_ryNe.png)
+
+### 4.2.3 Correlated Attack Timeline
+
+| Phase | Evidence Source | Event | Impact |
+| --- | --- | --- | --- |
+| Reconnaissance | Screenshot / Apache logs | `nmap` and `gobuster` against VM1 | Services and web paths identified |
+| SQL Injection | Burp/browser and `POST /login.php` logs | Login bypass using `admin' -- -` | Unauthorized authenticated access |
+| Stored XSS | Product page screenshots | Review containing JavaScript rendered on page | Stored client-side code execution |
+| File Upload | `POST /account.php` and `GET /uploads/shell.php` logs | Uploaded `shell.php` and executed `cmd=id` | Webshell command execution |
+| Command Injection | `POST /diagnostics.php` logs | Injected shell command in diagnostics field | Server-side RCE |
+| Foothold | Reverse shell screenshot | `id`, `hostname`, `ip a` run from shell | Interactive command shell on VM1 |
+| Containment | VM1 command evidence | Deleted `/var/www/html/app/uploads/shell.php` | Removed known attacker artifact |
+
+Representative timeline evidence:
+
+![](Final%20Project_files/pasted-data-image298162_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image926c59_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imageac661d_ryNe.png)
+
+## 4.3 Containment And Remediation
+
+### 4.3.1 SSH Access to VM1
+
+Containment was performed using legitimate administrative access to VM1, not through the attacker reverse shell. The containment sequence was:
+
+1. Confirm the malicious file path from the web and filesystem evidence.
+2. Remove the artifact from the upload directory.
+3. Verify that the path no longer contains executable attacker content.
+4. Inspect common persistence locations.
+5. Re-test the blocked path and confirm the result in Apache and Wazuh.
+
+![](Final%20Project_files/pasted-data-image1ddd17_ryNe.png)
+
+### 4.3.2 Webshell / Artifact Identification And Deletion
+
+Known attacker artifact:
+
+```javascript
+/var/www/html/app/uploads/shell.php
+```
+
+Before containment, VM1 showed:
+
+```javascript
+-rw-r--r-- www-data www-data 31 2026-05-07 00:48 /var/www/html/app/uploads/shell.php
+SHA256: ac5b099b97c6536012276c5e61c50d4f4fe6fd606bd861c5c15f769153452e68
+```
+
+Containment action:
+
+```bash
+sudo rm -f /var/www/html/app/uploads/shell.php
+```
+
+bash
+
+![](Final%20Project_files/pasted-data-image3cafad_ryNe.png)
+
+Final verification after remediation also showed no `shell.php` under the app and Apache returned `403 Forbidden` for `/uploads/shell.php?cmd=id` because PHP/script extensions are denied in the uploads directory.
+
+### 4.3.3 Persistence Check And Clearance Confirmation
+
+Persistence was not intentionally created during the controlled attack. The following checks were performed to confirm no persistence remained:
+
+```bash
+sudo crontab -l
+crontab -l
+sudo find /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly -maxdepth 1 -type f -ls
+sudo find /etc/systemd/system -type f -mtime -7 -ls
+cat /etc/passwd | tail
+find /home -maxdepth 3 -path '*/.ssh/*' -type f -ls
+sudo find /root/.ssh -maxdepth 2 -type f -ls
+```
+
+bash
+
+Results:
+
+![](Final%20Project_files/pasted-data-image26b181_ryNe.png)
+
+Conclusion: the known webshell was removed, and no persistence mechanism was identified.
+
+## 4.4 Detection Engineering
+
+All queries below are intended for the `wazuh-archives-4.x-*` data view.
+
+The query logic starts with the route where the suspicious action occurs. Content-based filters are added only when that content is actually visible in the collected logs. This keeps the detection approach aligned with the real telemetry available in the lab.
+
+### 4.4.1 Suspicious File Upload Detection
+
+Upload activity:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /account.php"
+```
+
+![](Final%20Project_files/pasted-data-imageb23f22_ryNe.png)
+
+Webshell access:
+
+```text
+agent.name: "vm1-technest" and full_log: "shell.php"
+```
+
+PHP in upload path:
+
+```text
+agent.name: "vm1-technest" and full_log: "/uploads/" and full_log: ".php"
+```
+
+![](Final%20Project_files/pasted-data-image8d81b9_ryNe.png)
+
+### 4.4.2 Stored XSS Detection
+
+Review submission route:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /product.php"
+```
+
+![](Final%20Project_files/pasted-data-imagef7ce49_ryNe.png)
+
+Payload-oriented query if request bodies or query-string payloads are available:
+
+```html
+agent.name: "vm1-technest" and (full_log: "<script" or full_log: "onerror=" or full_log: "document.cookie")
+```
+
+### 4.4.3 OS Command Injection Detection
+
+Diagnostics route:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /diagnostics.php"
+```
+
+![](Final%20Project_files/pasted-data-imageae6df5_ryNe.png)
+
+Payload-oriented query if payloads are visible:
+
+```text
+agent.name: "vm1-technest" and (full_log: ";" or full_log: "&&" or full_log: "|" or full_log: "/dev/tcp")
+```
+
+Post-compromise command evidence:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/bash_commands.log"
+```
+
+### 4.4.4 SQL Injection Detection
+
+Login route:
+
+```javascript
+agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /login.php"
+```
+
+![](Final%20Project_files/pasted-data-image95f285_ryNe.png)
+
+Payload-oriented query if payloads are visible:
+
+```text
+agent.name: "vm1-technest" and (full_log: "' --" or full_log: "or 1=1" or full_log: "union select")
+```
+
+## 4.5 Query Validation Evidence
+
+The following screenshots show each detection query running against the `wazuh-archives-4.x-*` data view and returning results from the attack and re-test window.
+
+File upload and webshell access:
+
+![](Final%20Project_files/pasted-data-imageb23f22_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image8d81b9_ryNe.png)
+
+Stored XSS review submission:
+
+![](Final%20Project_files/pasted-data-image0f950f_ryNe.png)
+
+OS command injection:
+
+![](Final%20Project_files/pasted-data-imageae6df5_ryNe.png)
+
+SQL injection login attempts:
+
+![](Final%20Project_files/pasted-data-image95f285_ryNe.png)
+
+Validation token used for re-test correlation: `codex-retest-20260507-200709`
+
+Archive route counts at validation:
+
+POST /login.php: 3 POST /product.php: 1 POST /account.php: 2 GET /uploads/shell.php: 1 POST /diagnostics.php: 3 Indexer count for token: 11
+
+All five detection queries return results. The application blocks re-exploitation while Wazuh continues to log the blocked attempts, confirming detection coverage remains active after remediation.
+
 ---
-Section 4 (Incident Response & Detection) and Section 5 (Mitigation & Re-Exploitation) are to be continued.
+
+# Section 5: Mitigation And Re-Exploitation
+
+## 5.1 Version Control Setup
+
+The vulnerable baseline was already committed before remediation:
+
+```text
+fbab3fe (tag: v1.0-vulnerable-baseline) initial commit: TechNest vulnerable baseline v1.0
+```
+
+Evidence:
+
+![](Final%20Project_files/pasted-data-imageceaf9c_ryNe.png)
+
+The final remediation commits are:
+
+```text
+493fcaf fix: prevent command injection in diagnostics
+4a97c22 fix: restrict avatar uploads and disable script execution
+9f1d3ee fix: encode product reviews to prevent stored xss
+18ca18d fix: prevent SQL injection in login
+fbab3fe (tag: v1.0-vulnerable-baseline) initial commit: TechNest vulnerable baseline v1.0
+```
+
+## 5.2 Code Remediation
+
+### 5.2.1 SQL Injection Fix
+
+File patched:
+
+```javascript
+/var/www/html/app/login.php
+```
+
+Change made:
+
+- Replaced raw SQL string concatenation with a prepared statement.
+- Bound `username` and `password` as parameters.
+- Preserved the original successful-login behavior and generic failure message.
+
+Commit:
+
+```text
+18ca18d fix: prevent SQL injection in login
+```
+
+### 5.2.2 Stored XSS Fix
+
+File patched:
+
+```javascript
+/var/www/html/app/product.php
+```
+
+Change made:
+
+- Inserted reviews using prepared statements.
+- Normalized rating to the range `1` to `5`.
+- Encoded review author, rating, and body using `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')` before rendering.
+
+Commit:
+
+```text
+9f1d3ee fix: encode product reviews to prevent stored xss
+```
+
+### 5.2.3 File Upload Fix
+
+File patched:
+
+```javascript
+/var/www/html/app/account.php
+```
+
+Change made:
+
+- Allowed only actual JPEG, PNG, and GIF MIME types using `finfo_file`.
+- Rejected PHP/script uploads.
+- Generated server-side avatar filenames with random bytes.
+- Updated the user avatar with a prepared statement.
+- Encoded account output fields before rendering.
+
+Commit:
+
+```text
+4a97c22 fix: restrict avatar uploads and disable script execution
+```
+
+Apache upload-directory hardening was also added:
+
+```javascript
+<Directory /var/www/html/app/uploads>
+    Options -ExecCGI
+    AllowOverride None
+    <FilesMatch "\.(php|phtml|phar|php[0-9])$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+```
+
+Apache configuration validation returned:
+
+```text
+Syntax OK
+apache2: active
+```
+
+### 5.2.4 OS Command Injection Fix
+
+File patched:
+
+```javascript
+/var/www/html/app/diagnostics.php
+```
+
+Change made:
+
+- Removed shell string concatenation.
+- Replaced `shell_exec("ping -c 1 " . $order_id)` with `proc_open(['/usr/bin/ping', '-c', '1', $order_id], ...)`.
+- Added strict input validation to reject shell metacharacters, spaces, redirection, and reverse-shell payloads.
+- Encoded command output before rendering.
+
+Commit:
+
+```text
+493fcaf fix: prevent command injection in diagnostics
+```
+
+## 5.3 Patched Application Deployment
+
+All patched PHP files passed syntax validation:
+
+```javascript
+No syntax errors detected in /var/www/html/app/login.php
+No syntax errors detected in /var/www/html/app/product.php
+No syntax errors detected in /var/www/html/app/account.php
+No syntax errors detected in /var/www/html/app/diagnostics.php
+```
+
+Final service status:
+
+```text
+apache2: active
+mariadb: active
+wazuh-agent: active
+rsyslog: active
+```
+
+## 5.4 Re-Exploitation Testing
+
+The re-test phase followed the same disciplined order used during investigation:
+
+1. Confirm the patched feature still works for normal user input.
+2. Re-run the original exploit attempt in a controlled way.
+3. Record the blocked application behavior.
+4. Query Wazuh archives to confirm the attempt was still logged.
+5. Move to the next test only after both application and SIEM evidence are captured.
+
+Re-test token used for Wazuh correlation:
+
+```text
+codex-retest-20260507-200709
+```
+
+| Test | Original exploit | Patched result |
+| --- | --- | --- |
+| Normal login | `admin / secret123` | Still works, HTTP `302 Found` to `index.php` |
+| SQLi login bypass | `admin' -- -` | Fails, HTTP `200 OK` with `Invalid username or password` |
+| Stored XSS | `<script>alert(1)</script>` review | Raw script absent; escaped text present |
+| Normal avatar upload | Valid PNG | Still works; `Avatar updated` shown |
+| PHP upload | `shell.php` | Rejected with `Only JPG, PNG, and GIF images are allowed` |
+| Webshell access | `/uploads/shell.php?cmd=id` | Blocked with HTTP `403 Forbidden` |
+| Command injection | `127.0.0.1 ; id` | Rejected; no `uid=` output present |
+| Normal diagnostics | `127.0.0.1` | Still returns ping output |
+| Reverse shell payload | `/dev/tcp/192.168.230.130/4444` payload | Rejected by validation before execution |
+
+Key re-test outputs:
+
+```text
+SQLi bypass retest body contains invalid login: True
+XSS retest raw script present: False
+XSS retest escaped script present: True
+normal image upload success text: True
+PHP upload rejected text: True
+shell.php access after containment: HTTP/1.1 403 Forbidden
+command injection retest blocked text: True
+command injection retest uid output present: False
+normal diagnostics has ping output: True
+reverse shell payload rejected text: True
+```
+
+## 5.5 Detection Query Verification After Patching
+
+Wazuh archived the patched re-test attempts with the unique user-agent token:
+
+```text
+codex-retest-20260507-200709
+```
+
+Observed archive route counts:
+
+```text
+POST /login.php:          3
+POST /product.php:        1
+POST /account.php:        2
+GET /uploads/shell.php:   1
+POST /diagnostics.php:    3
+Indexer count for token: 11
+```
+
+This confirms detection visibility remained after remediation. The application blocks exploitation, while Wazuh still records the attempted attack routes for investigation.
+
+## 5.6 Git Commit History Summary
+
+Final Git history:
+
+```text
+493fcaf (HEAD -> master) fix: prevent command injection in diagnostics
+4a97c22 fix: restrict avatar uploads and disable script execution
+9f1d3ee fix: encode product reviews to prevent stored xss
+18ca18d fix: prevent SQL injection in login
+fbab3fe (tag: v1.0-vulnerable-baseline) initial commit: TechNest vulnerable baseline v1.0
+```
+
+Remaining untracked upload files are runtime artifacts, not source-code changes:
+
+```text
+?? uploads/
+```
+
+The runtime upload directory contains only avatar image files after containment and re-test. No `shell.php` remains.
+
+---
+
+# Appendix A: Evidence Index
+
+## Infrastructure And Visibility
+
+VM1 IP:
+
+![](Final%20Project_files/pasted-data-image93b649_ryNe.png)
+
+VM1 services:
+
+![](Final%20Project_files/pasted-data-image636f17_ryNe.png)
+
+Apache HTTPS configuration:
+
+![](Final%20Project_files/pasted-data-imagef6e398_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imageba1db3_ryNe.png)
+
+Application structure:
+
+![](Final%20Project_files/pasted-data-image6382f7_ryNe.png)
+
+Git baseline:
+
+![](Final%20Project_files/pasted-data-imageceaf9c_ryNe.png)
+
+Wazuh deployment:
+
+![](Final%20Project_files/pasted-data-image8d7458_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imagec8f8de_ryNe.png)
+
+Wazuh forwarding:
+
+![](Final%20Project_files/pasted-data-image23ea24_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image88e99b_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image8044f0_ryNe.png)
+
+## Offensive Evidence
+
+SQL injection:
+
+![](Final%20Project_files/pasted-data-image7d3f99_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imagec694da_ryNe.png)
+
+Stored XSS:
+
+![](Final%20Project_files/pasted-data-image59dc87_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image6bb7c2_ryNe.png)
+
+File upload:
+
+![](Final%20Project_files/pasted-data-image1b894f_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imageff5b9b_ryNe.png)
+
+![](Final%20Project_files/pasted-data-image298162_ryNe.png)
+
+OS command injection:
+
+![](Final%20Project_files/pasted-data-image926c59_ryNe.png)
+
+Reverse shell:
+
+![](Final%20Project_files/pasted-data-image49e688_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imageb04a4e_ryNe.png)
+
+![](Final%20Project_files/pasted-data-imageac661d_ryNe.png)
