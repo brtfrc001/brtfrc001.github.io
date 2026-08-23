@@ -1,9 +1,9 @@
 ---
-layout: post
 title: "Cyber Apocalypse CTF 2026: The Salt Crown — 'False Witness' write-up"
 author: "me"
 categories: [ctf, cryptography]
 tags: [ctf, write-up, cryptography, cyber-apocalypse, hack-the-box]
+toc: true
 ---
 
 Hi, This is a write-up for a challenge I solved in a CTF by Hack The Box.

@@ -1,9 +1,9 @@
 ---
-layout: post
 title: "MAC Flooding Attack Lab"
 author: "me"
 categories: Lab
 tags: pentesting networking mac-flooding
+toc: true
 ---
 
 Hey there, I made this lab for my pentesting lab assignment as part of the course in my major as an information security senior student.

@@ -1,9 +1,9 @@
 ---
-layout: post
 title: "Masar V10 Final Project Assignment Report"
 author: "me"
 categories: Lab
 tags: pentesting web-security
+toc: true
 ---
 
 Masar is a training for university students provided by the National Cyber Security Center (NCSC) in Jordan.

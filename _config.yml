@@ -1,19 +1,100 @@
-title: Raneem Almanon
-description: Write-ups & Labs
-author: "me"
-remote_theme: pages-themes/minimal@v0.2.0
+# Import the theme
+theme: jekyll-theme-chirpy
 
-markdown: kramdown
-kramdown:
-  math_engine: mathjax
+# Site Settings
+title: "brtfrc001"
+tagline: "CTF writeups and technical labs"
+url: "https://brtfrc001.github.io"
+baseurl: ""
 
-plugins:
-  - jekyll-remote-theme
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
+# Author & Localization
+author: "Raneem Almanon"
+lang: en
+timezone: Asia/Amman
+
+# Chirpy Theme Settings
+theme_mode: dark # [light | dark]
+avatar: "/assets/images/logo.png"
+toc: true
+
+# Social / Contact Links
+github:
+  username: brtfrc001
+
+social:
+  name: Raneem Almanon
+  email: "raneem.rebhi@outlook.com"
   
-repository: "raneemalmanon/raneemalmanon.github.io"
-logo: /assets/images/logo.png
-youtube: https://www.youtube.com/@brtfrc001
-linkedin: https://www.linkedin.com/in/raneem-rebhi/
+paginate: 10
+
+# Collections & Defaults (Required by Chirpy)
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+# Markdown & Syntax Highlighting
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+# Archives & Taxonomies
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
+
+# Compression & Excludes
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - "*.config.js"
+  - "package*.json"
