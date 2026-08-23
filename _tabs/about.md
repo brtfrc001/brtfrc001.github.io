@@ -8,4 +8,4 @@ I'm Raneem, a cybersecurity graduate focused on cryptography. I'm ranked in the 
 
 I also run a [YouTube channel](https://www.youtube.com/@brtfrc001) where I do tutorials on tools, HTB machine walkthroughs and cryptography CTF challenges.
 
-Find me: [GitHub](https://github.com/brtfrc001) · [LinkedIn](https://www.linkedin.com/in/raneem-rebhi/) · [Email](raneem.rebhi@outlook.com)
+Find me: [GitHub](https://github.com/brtfrc001) · [LinkedIn](https://www.linkedin.com/in/raneem-rebhi/) · [Email](mailto:raneem.rebhi@outlook.com)
