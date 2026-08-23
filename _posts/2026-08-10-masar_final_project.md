@@ -708,13 +708,13 @@ This archive view is the correct starting point because it preserves the raw for
 
 Representative evidence from the original SIEM setup and log forwarding:
 
-![](Final%20Project_files/pasted-data-image23ea24_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image23ea24_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image88e99b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image88e99b_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image3d1f27_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image3d1f27_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8044f0_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8044f0_ryNe.png)
 
 ## 4.2 SIEM-Based Timeline Reconstruction
 
@@ -728,7 +728,7 @@ agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log"
 
 This query is used first to verify that the correct agent is sending web events and to identify the time window, source IP, HTTP methods, status codes, and routes involved. After that scoping step, the investigation pivots to the vulnerable routes.
 
-![](Final%20Project_files/pasted-data-imagee4853c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagee4853c_ryNe.png)
 
 Wazuh archives contained historical attack evidence for the following routes:
 
@@ -787,9 +787,9 @@ The saved Wazuh evidence shows bash command forwarding was working, including ad
 
 Representative Wazuh bash evidence:
 
-![](Final%20Project_files/pasted-data-image02a767_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image02a767_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image00d01a_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image00d01a_ryNe.png)
 
 ### 4.2.3 Correlated Attack Timeline
 
@@ -805,11 +805,11 @@ Representative Wazuh bash evidence:
 
 Representative timeline evidence:
 
-![](Final%20Project_files/pasted-data-image298162_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image298162_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image926c59_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image926c59_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageac661d_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageac661d_ryNe.png)
 
 ## 4.3 Containment And Remediation
 
@@ -823,7 +823,7 @@ Containment was performed using legitimate administrative access to VM1, not thr
 4. Inspect common persistence locations.
 5. Re-test the blocked path and confirm the result in Apache and Wazuh.
 
-![](Final%20Project_files/pasted-data-image1ddd17_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image1ddd17_ryNe.png)
 
 ### 4.3.2 Webshell / Artifact Identification And Deletion
 
@@ -848,7 +848,7 @@ sudo rm -f /var/www/html/app/uploads/shell.php
 
 bash
 
-![](Final%20Project_files/pasted-data-image3cafad_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image3cafad_ryNe.png)
 
 Final verification after remediation also showed no `shell.php` under the app and Apache returned `403 Forbidden` for `/uploads/shell.php?cmd=id` because PHP/script extensions are denied in the uploads directory.
 
@@ -870,7 +870,7 @@ bash
 
 Results:
 
-![](Final%20Project_files/pasted-data-image26b181_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image26b181_ryNe.png)
 
 Conclusion: the known webshell was removed, and no persistence mechanism was identified.
 
@@ -888,7 +888,7 @@ Upload activity:
 agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /account.php"
 ```
 
-![](Final%20Project_files/pasted-data-imageb23f22_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb23f22_ryNe.png)
 
 Webshell access:
 
@@ -902,7 +902,7 @@ PHP in upload path:
 agent.name: "vm1-technest" and full_log: "/uploads/" and full_log: ".php"
 ```
 
-![](Final%20Project_files/pasted-data-image8d81b9_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8d81b9_ryNe.png)
 
 ### 4.4.2 Stored XSS Detection
 
@@ -912,7 +912,7 @@ Review submission route:
 agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /product.php"
 ```
 
-![](Final%20Project_files/pasted-data-imagef7ce49_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagef7ce49_ryNe.png)
 
 Payload-oriented query if request bodies or query-string payloads are available:
 
@@ -928,7 +928,7 @@ Diagnostics route:
 agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /diagnostics.php"
 ```
 
-![](Final%20Project_files/pasted-data-imageae6df5_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageae6df5_ryNe.png)
 
 Payload-oriented query if payloads are visible:
 
@@ -950,7 +950,7 @@ Login route:
 agent.name: "vm1-technest" and location: "/var/log/apache2/vulnapp_access.log" and full_log: "POST /login.php"
 ```
 
-![](Final%20Project_files/pasted-data-image95f285_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image95f285_ryNe.png)
 
 Payload-oriented query if payloads are visible:
 
@@ -964,21 +964,21 @@ The following screenshots show each detection query running against the `wazuh-a
 
 File upload and webshell access:
 
-![](Final%20Project_files/pasted-data-imageb23f22_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb23f22_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8d81b9_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8d81b9_ryNe.png)
 
 Stored XSS review submission:
 
-![](Final%20Project_files/pasted-data-image0f950f_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image0f950f_ryNe.png)
 
 OS command injection:
 
-![](Final%20Project_files/pasted-data-imageae6df5_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageae6df5_ryNe.png)
 
 SQL injection login attempts:
 
-![](Final%20Project_files/pasted-data-image95f285_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image95f285_ryNe.png)
 
 Validation token used for re-test correlation: `codex-retest-20260507-200709`
 
@@ -1002,7 +1002,7 @@ fbab3fe (tag: v1.0-vulnerable-baseline) initial commit: TechNest vulnerable base
 
 Evidence:
 
-![](Final%20Project_files/pasted-data-imageceaf9c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageceaf9c_ryNe.png)
 
 The final remediation commits are:
 
@@ -1230,70 +1230,70 @@ The runtime upload directory contains only avatar image files after containment 
 
 VM1 IP:
 
-![](Final%20Project_files/pasted-data-image93b649_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image93b649_ryNe.png)
 
 VM1 services:
 
-![](Final%20Project_files/pasted-data-image636f17_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image636f17_ryNe.png)
 
 Apache HTTPS configuration:
 
-![](Final%20Project_files/pasted-data-imagef6e398_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagef6e398_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageba1db3_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageba1db3_ryNe.png)
 
 Application structure:
 
-![](Final%20Project_files/pasted-data-image6382f7_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image6382f7_ryNe.png)
 
 Git baseline:
 
-![](Final%20Project_files/pasted-data-imageceaf9c_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageceaf9c_ryNe.png)
 
 Wazuh deployment:
 
-![](Final%20Project_files/pasted-data-image8d7458_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8d7458_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec8f8de_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec8f8de_ryNe.png)
 
 Wazuh forwarding:
 
-![](Final%20Project_files/pasted-data-image23ea24_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image23ea24_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image88e99b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image88e99b_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image8044f0_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image8044f0_ryNe.png)
 
 ## Offensive Evidence
 
 SQL injection:
 
-![](Final%20Project_files/pasted-data-image7d3f99_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image7d3f99_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imagec694da_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imagec694da_ryNe.png)
 
 Stored XSS:
 
-![](Final%20Project_files/pasted-data-image59dc87_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image59dc87_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image6bb7c2_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image6bb7c2_ryNe.png)
 
 File upload:
 
-![](Final%20Project_files/pasted-data-image1b894f_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image1b894f_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageff5b9b_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageff5b9b_ryNe.png)
 
-![](Final%20Project_files/pasted-data-image298162_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image298162_ryNe.png)
 
 OS command injection:
 
-![](Final%20Project_files/pasted-data-image926c59_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image926c59_ryNe.png)
 
 Reverse shell:
 
-![](Final%20Project_files/pasted-data-image49e688_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-image49e688_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageb04a4e_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageb04a4e_ryNe.png)
 
-![](Final%20Project_files/pasted-data-imageac661d_ryNe.png)
+![](/assets/images/lab/masar-final-project/pasted-data-imageac661d_ryNe.png)
