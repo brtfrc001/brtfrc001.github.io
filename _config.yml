@@ -13,7 +13,7 @@ lang: en
 timezone: Asia/Amman
 
 # Chirpy Theme Settings
-theme_mode: dark # [light | dark]
+theme_mode: # [light | dark]
 avatar: "/assets/images/logo.png"
 toc: true
 
