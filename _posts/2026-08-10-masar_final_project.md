@@ -4,6 +4,7 @@ author: "me"
 categories: Lab
 tags: pentesting web-security
 toc: true
+mermaid: ture
 ---
 
 Masar is a training for university students provided by the National Cyber Security Center (NCSC) in Jordan.

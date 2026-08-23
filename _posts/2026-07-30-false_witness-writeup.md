@@ -4,6 +4,8 @@ author: "me"
 categories: [ctf, cryptography]
 tags: [ctf, write-up, cryptography, cyber-apocalypse, hack-the-box]
 toc: true
+math: true
+mermaid: ture
 ---
 
 Hi, This is a write-up for a challenge I solved in a CTF by Hack The Box.
