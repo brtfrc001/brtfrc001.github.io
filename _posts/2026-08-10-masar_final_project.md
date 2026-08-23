@@ -1,6 +1,5 @@
 ---
 title: "Masar V10 Final Project Assignment Report"
-author: "me"
 categories: Lab
 tags: pentesting web-security
 toc: true

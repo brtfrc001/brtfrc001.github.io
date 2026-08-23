@@ -1,6 +1,5 @@
 ---
 title: "MAC Flooding Attack Lab"
-author: "me"
 categories: Lab
 tags: pentesting networking mac-flooding
 toc: true
