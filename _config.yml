@@ -8,7 +8,6 @@ url: "https://brtfrc001.github.io"
 baseurl: ""
 
 # Author & Localization
-author: "Raneem Almanon"
 lang: en
 timezone: Asia/Amman
 
@@ -22,9 +21,10 @@ github:
   username: brtfrc001
 
 social:
-  name: Raneem Almanon
+  name: "Raneem Almanon"
   email: "mailto:raneem.rebhi@outlook.com"
-  
+  links:
+    - https://brtfrc001.github.io/about/
 paginate: 10
 
 # Collections & Defaults (Required by Chirpy)
