@@ -98,3 +98,7 @@ exclude:
   - purgecss.js
   - "*.config.js"
   - "package*.json"
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
