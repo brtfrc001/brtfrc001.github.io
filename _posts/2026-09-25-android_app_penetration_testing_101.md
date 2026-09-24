@@ -2,7 +2,7 @@ Lab components: Android Studio, Android Studio's virtual device, Android Debuggi
 This lab is inspired by Frida Labs https://github.com/DERE-ad2001/Frida-Labs
 # White box android app PT demo
 ## App building
-![[Attachments/Pasted image 20260920190353.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260920190353.png)
 Main:
 ```
 public class MainActivity extends AppCompatActivity {  
@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 trying the app functionality
-![[Attachments/Pasted image 20260920190519.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260920190519.png)
 
 What we understand from the code and the interface is that we have to enter the correct guess from 1 to 99 that is only determined at runtime and the key keeps its value as long as the app is running and the instance is still active.
 ### getting `apk` file
-![[Attachments/Pasted image 20260922150413.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922150413.png)
 
 it is saved in loc: `C:\Users\raneem\AndroidStudioProjects\MyApplication\app\build\outputs\apk\debug`
 ```
@@ -59,7 +59,7 @@ adb install .\app\build\outputs\apk\debug\app-debug.apk
 It is already installed on my virtual device, since it was running in android studio at building stage.
 ## Static Reversing using `jadx`
 Opening the `apk` file and navigating to path: `Source code\com\example.myapplication\MainActivity` We find the main class.
-![[Attachments/Pasted image 20260922152438.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922152438.png)
 At this point we'd be analyzing app code, but since we have a white box penetration testing and had an overview in App Building stage, we already made this point, so let's go to the next section. 
 ## Dynamic Reverse Engineering using `frida`
 ![[Frida labs#Frida tool]]
@@ -88,7 +88,7 @@ To hook this script with `frida` use this command line:
 PS C:\Users\raneem\android-reversing-demo> frida -U "My Application" -l .\hook.js
  ```
 Here's how it looks like when user interacts with the app.
-![[Attachments/Pasted image 20260922170128.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922170128.png)
 Since the key won't change at a second submit, meaning I can just enter `89` as input and get the flag, I can just do that, but I want to take a different approach.
 Let's manipulate the key value instead.
 ```
@@ -106,9 +106,9 @@ MainActivity.check.implementation = function (v) {
 ```
 
 At the first interaction it changed `key` to 50 as shown, I click submit it prints 50
-![[Attachments/Pasted image 20260922171951.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922171951.png)
 Then simply entering the value that completes 100 which is 50 (100=50+50) which satisfies the condition of the flag at `((TextView) findViewById(R.id.result)).setText(this.key + x == 100 ? "FLAG{" + Integer.toHexString((x * 7919) ^ (this.key * 104729)) + "}" : "Wrong");` in `check` function.
-![[Attachments/Pasted image 20260922172420.png]]
+![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922172420.png)
 There's also more advanced approach where we're making the JS script read the `editText` (user input) and change the `key` value based on that, but this is all for now.
 
 Thanks for reading!
