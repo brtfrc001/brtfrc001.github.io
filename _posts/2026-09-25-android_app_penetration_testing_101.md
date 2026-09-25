@@ -1,13 +1,24 @@
-Lab components: Android Studio, Android Studio's virtual device, Android Debugging Bridge (ADB) , `frida` CLI, `frida` server.
+---
+title: "Android App Pentesting 101"
+categories: Lab
+tags: pentesting android
+toc: true
+mermaid: ture
+---
+
+This lab is a white-box pentest of a simple Android app I just made. It provides full access to the app's source and compiled code, allowing us to use Frida's method-hooking technique to intercept and manipulate the app's runtime logic directly.
+
+Lab components: Android Studio, Android Studio's virtual device, Android Debugging Bridge (ADB), the `frida` CLI, and the `frida` server.
+
 This lab is inspired by Frida Labs https://github.com/DERE-ad2001/Frida-Labs
 
-# White box android app PT demo
+# White-Box Android App Pentesting Demo
 
-## App building
+## App Building
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260920190353.png)
 
-Main:
+`MainActivity`:
 
 ```
 public class MainActivity extends AppCompatActivity {  
@@ -28,17 +39,17 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-trying the app functionality
+Trying the app's functionality:
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260920190519.png)
 
-What we understand from the code and the interface is that we have to enter the correct guess from 1 to 99 that is only determined at runtime and the key keeps its value as long as the app is running and the instance is still active.
+From the code and the interface, we understand that we have to enter the correct guess, from 1 to 99. The correct value is determined at runtime, and the key retains its value as long as the app is running and the instance remains active.
 
-### getting `apk` file
+### Getting the `apk` File
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922150413.png)
 
-it is saved in loc: `C:\Users\raneem\AndroidStudioProjects\MyApplication\app\build\outputs\apk\debug`
+It is saved at `C:\Users\raneem\AndroidStudioProjects\MyApplication\app\build\outputs\apk\debug`.
 
 ```
 PS C:\Users\raneem\AndroidStudioProjects\MyApplication> ls .\app\build\outputs\apk\debug\app-debug.apk
@@ -52,7 +63,7 @@ Mode                 LastWriteTime         Length Name
 -a----         9/22/2026   2:53 PM       12027731 app-debug.apk    
 ```
 
-let's move it to my working directory and rename to `myapplication.apk`
+Let's move it to my working directory and rename it to `myapplication.apk`:
 
 ```
 cp .\app\build\outputs\apk\debug\app-debug.apk C:\Users\raneem\android-reversing-demo\myapplication.apk
@@ -68,29 +79,29 @@ PS C:\Users\raneem\android RE> adb root
 adbd is already running as root
 ```
 
-Installing the app using `adb`.
+Install the app using `adb`:
 
 ```
 adb install .\app\build\outputs\apk\debug\app-debug.apk
 ```
 
-It is already installed on my virtual device, since it was running in android studio at building stage.
+It is already installed on my virtual device because it was running in Android Studio during the building stage.
 
 ## Static Reversing using `jadx`
 
-Opening the `apk` file and navigating to path: `Source code\com\example.myapplication\MainActivity` We find the main class.
+After opening the `apk` file and navigating to `Source code\com\example.myapplication\MainActivity`, we find the main class.
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922152438.png)
 
-At this point we'd be analyzing app code, but since we have a white box penetration testing and had an overview in App Building stage, we already made this point, so let's go to the next section. 
+At this point, we would be analyzing the app's code. However, since this is a white-box penetration test and we already reviewed the code during the app-building stage, let's move on to the next section.
 
 ## Dynamic Reverse Engineering using `frida`
 
 ![[Frida labs#Frida tool]]
 
-### Writing a `JavaScript` code
+### Writing `JavaScript` Code
 
-A code that will be executed at runtime and will manipulate our app's behavior, method hooking is `frida`'s own technique in applying Dynamic Binary Instrumentation (DBI) which includes two tasks: code injection (my JS code); module loads interception, which means finding and reading the target module in memory. to understand it, let's look at this example:
+The code below is executed at runtime to manipulate the app's behavior. Method hooking is Frida's technique for applying Dynamic Binary Instrumentation (DBI), which includes two tasks: code injection (our JavaScript code) and module-load interception, which means finding and reading the target module in memory. To understand this, let's look at the following example:
 
  ```
 Java.perform(function () {
@@ -105,23 +116,24 @@ MainActivity.check.implementation = function (v) {  // 2
 });
  ```
 
-To disseminate the code:
-1. First we specify the module load which we will intercept, which is `MainActivity`.
-2. Then we specify the target method to be instrumented (injected with our code) using `.implementation` method.
-3. Our code here.
-This code doesn't change anything it just looks at `key` value that is randomly generated once `onCreate()` in the main is called at runtime.
-To hook this script with `frida` use this command line:
+To break down the code:
+1. First, we specify the module to intercept, which is `MainActivity`.
+2. Then, we specify the target method to instrument by assigning our code through the `.implementation` method.
+3. Finally, we add our code.
+
+This code does not change anything; it simply reads the `key` value, which is randomly generated when `onCreate()` is called in `MainActivity` at runtime.
+To hook this script with `frida`, use the following command:
 
 ```
 PS C:\Users\raneem\android-reversing-demo> frida -U "My Application" -l .\hook.js
 ```
 
-Here's how it looks like when user interacts with the app.
+Here's what it looks like when the user interacts with the app.
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922170128.png)
 
-Since the key won't change at a second submit, meaning I can just enter `89` as input and get the flag, I can just do that, but I want to take a different approach.
-Let's manipulate the key value instead.
+Since the key does not change on a second submission, I could simply enter `89` as the input and get the flag. However, I want to take a different approach.
+Let's manipulate the key's value instead.
 
 ```
 Java.perform(function () {
@@ -137,14 +149,14 @@ MainActivity.check.implementation = function (v) {
 });
 ```
 
-At the first interaction it changed `key` to 50 as shown, I click submit it prints 50
+During the first interaction, it changes `key` to 50, as shown. When I click Submit, it prints 50.
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922171951.png)
 
-Then simply entering the value that completes 100 which is 50 (100=50+50) which satisfies the condition of the flag at `((TextView) findViewById(R.id.result)).setText(this.key + x == 100 ? "FLAG{" + Integer.toHexString((x * 7919) ^ (this.key * 104729)) + "}" : "Wrong");` in `check` function.
+Then, simply entering the value that completes 100, which is 50 (100 = 50 + 50), satisfies the flag condition in the `check` function: `((TextView) findViewById(R.id.result)).setText(this.key + x == 100 ? "FLAG{" + Integer.toHexString((x * 7919) ^ (this.key * 104729)) + "}" : "Wrong");`.
 
 ![](/assets/images/lab/android-app-penetration-testing-101/Pasted%20image%2020260922172420.png)
 
-There's also more advanced approach where we're making the JS script read the `editText` (user input) and change the `key` value based on that, but this is all for now.
+There is also a more advanced approach in which the JavaScript script reads the `EditText` (user input) and changes the `key` value based on it, but that is all for now.
 
 Thanks for reading!
