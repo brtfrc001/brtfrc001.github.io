@@ -3,7 +3,7 @@ title: "Android App Pentesting 101"
 categories: Lab
 tags: pentesting android
 toc: true
-mermaid: ture
+mermaid: true
 ---
 
 This lab is a white-box pentest of a simple Android app I just made. It provides full access to the app's source and compiled code, allowing us to use Frida's method-hooking technique to intercept and manipulate the app's runtime logic directly.
@@ -71,8 +71,8 @@ cp .\app\build\outputs\apk\debug\app-debug.apk C:\Users\raneem\android-reversing
 
 ## ADB
 
-Android debugging bridge is used to give us access to the virtual device's shell, and connects automatically when the android emulator by android studio is started.
-First for debugging we need root privilege on the virtual phone's shell.
+The Android Debug Bridge gives us access to the virtual device's shell and connects automatically when the Android emulator in Android Studio is started.
+First, we need root privileges in the virtual phone's shell for debugging.
 
 ```
 PS C:\Users\raneem\android RE> adb root
@@ -87,7 +87,7 @@ adb install .\app\build\outputs\apk\debug\app-debug.apk
 
 It is already installed on my virtual device because it was running in Android Studio during the building stage.
 
-## Static Reversing using `jadx`
+## Static Reversing Using `jadx`
 
 After opening the `apk` file and navigating to `Source code\com\example.myapplication\MainActivity`, we find the main class.
 
@@ -95,20 +95,20 @@ After opening the `apk` file and navigating to `Source code\com\example.myapplic
 
 At this point, we would be analyzing the app's code. However, since this is a white-box penetration test and we already reviewed the code during the app-building stage, let's move on to the next section.
 
-## Dynamic Reverse Engineering using `frida` tool
+## Dynamic Reverse Engineering Using the `frida` Tool
 
 ### `frida` Installation (on operation machine)
 
-Using python:
+Using Python:
 
 ```
 pip install frida-tools
 ```
 
-### `frida` Server Instalation (on android virtual device)
+### `frida` Server Installation (on android virtual device)
 
-- find and download the compatible executable with the emulator processor architecture.
-- then push it into device location and run it as background process.
+- Find and download the executable compatible with the emulator's processor architecture.
+- Then push it to the device's location and run it as a background process.
 
 ```
 PS C:\Users\raneem\tool\frida-server> adb push .\frida-server-17.18.0-android-x86_64 /data/local/tmp/frida-server-17.18.0-android-x86_64
@@ -123,7 +123,7 @@ PS C:\Users\raneem> adb shell "chmod 755 /data/local/tmp/frida-server-17.18.0-an
 PS C:\Users\raneem> adb shell "/data/local/tmp/frida-server-17.18.0-android-x86_64 &"
 ```
 
-#### Verify: server is running and connected.
+#### Verification: The Server Is Running and Connected
 
 ```
 PS C:\Users\raneem> frida-ps -U
