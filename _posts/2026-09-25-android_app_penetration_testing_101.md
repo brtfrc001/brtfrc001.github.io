@@ -95,9 +95,77 @@ After opening the `apk` file and navigating to `Source code\com\example.myapplic
 
 At this point, we would be analyzing the app's code. However, since this is a white-box penetration test and we already reviewed the code during the app-building stage, let's move on to the next section.
 
-## Dynamic Reverse Engineering using `frida`
+## Dynamic Reverse Engineering using `frida` tool
 
-![[Frida labs#Frida tool]]
+### `frida` Installation (on operation machine)
+
+Using python:
+
+```
+pip install frida-tools
+```
+
+### `frida` Server Instalation (on android virtual device)
+
+- find and download the compatible executable with the emulator processor architecture.
+- then push it into device location and run it as background process.
+
+```
+PS C:\Users\raneem\tool\frida-server> adb push .\frida-server-17.18.0-android-x86_64 /data/local/tmp/frida-server-17.18.0-android-x86_64
+.\frida-server-17.18.0-android-x86_64: 1 file pushed, 0 skipped. 51.1 MB/s (115966424 bytes in 2.165s)
+```
+
+```
+PS C:\Users\raneem> adb shell "chmod 755 /data/local/tmp/frida-server-17.18.0-android-x86_64"
+```
+
+```
+PS C:\Users\raneem> adb shell "/data/local/tmp/frida-server-17.18.0-android-x86_64 &"
+```
+
+#### Verify: server is running and connected.
+
+```
+PS C:\Users\raneem> frida-ps -U
+ PID  Name
+----  ---------------------------------------------------
+4820  Calendar
+3186  Gmail
+2990  Google
+4765  Maps
+3631  Messages
+4735  Phone
+3812  Photos
+5055  adbd
+1756  android.hardware.audio@2.0-service
+1881  android.hardware.biometrics.fingerprint@2.1-service
+1757  android.hardware.broadcastradio@1.1-service
+1758  android.hardware.camera.provider@2.4-service
+1759  android.hardware.cas@1.1-service
+1760  android.hardware.configstore@1.1-service
+1761  android.hardware.drm@1.0-service
+1762  android.hardware.drm@1.2-service.clearkey
+1763  android.hardware.drm@1.2-service.widevine
+1766  android.hardware.gatekeeper@1.0-service
+1768  android.hardware.gnss@1.0-service
+1769  android.hardware.graphics.allocator@2.0-service
+1771  android.hardware.graphics.composer@2.1-service
+1772  android.hardware.health@2.0-service.goldfish
+1712  android.hardware.keymaster@3.0-service
+1857  android.hardware.media.omx@1.0-service
+1773  android.hardware.power@1.1-service.ranchu
+1774  android.hardware.sensors@1.0-service
+1775  android.hardware.thermal@2.0-service.mock
+1777  android.hardware.wifi@1.0-service
+1753  android.hidl.allocator@1.0-service
+2668  android.process.acore
+3265  android.process.media
+1754  android.system.suspend@1.0-service
+1725  apexd
+.
+.
+.
+```
 
 ### Writing `JavaScript` Code
 
