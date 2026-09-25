@@ -10,9 +10,7 @@ This lab is a white-box pentest of a simple Android app I just made. It provides
 
 Lab components: Android Studio, Android Studio's virtual device, Android Debugging Bridge (ADB), the `frida` CLI, and the `frida` server.
 
-This lab is inspired by Frida Labs https://github.com/DERE-ad2001/Frida-Labs
-
-# White-Box Android App Pentesting Demo
+This lab is inspired by [Frida Labs](https://github.com/DERE-ad2001/Frida-Labs).
 
 ## App Building
 
