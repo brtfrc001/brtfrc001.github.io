@@ -4,6 +4,7 @@ categories: Lab
 tags: pentesting web-security
 toc: true
 mermaid: ture
+published: false
 ---
 
 For my final project in the National Cyber Security Center (NCSC) Masar training program, I designed an engagement to demonstrate a complete security lifecycle: from infrastructure build and adversary emulation to SIEM threat hunting and source code remediation.
