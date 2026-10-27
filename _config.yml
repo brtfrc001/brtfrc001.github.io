@@ -13,7 +13,7 @@ timezone: Asia/Amman
 
 # Chirpy Theme Settings
 theme_mode: # [light | dark]
-avatar: "/assets/images/logo.png"
+avatar: "assets/images/brtfrc001v5-512px.png"  # assets/images/brtfrc001v5-512px.png
 toc: true
 
 # Social / Contact Links
