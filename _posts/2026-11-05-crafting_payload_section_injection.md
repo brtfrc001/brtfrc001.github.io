@@ -5,6 +5,7 @@ tags: attack-chain craft-payload malware stealth
 toc: true
 mermaid: true
 share: true
+media_subpath: /assets/images/crafting_payload_section_injection
 ---
 
 In this post, we'll embed a reverse shell binary as a new section in a benign executable, which is referred to as section injection and identified by MITRE ATT&CK as "Obfuscated Files or Information: Embedded Payloads - ID: T1027.009" a technique used in stealth tactic by adversaries in malware development.
