@@ -1,5 +1,5 @@
 ---
-title: "Malware Information Sharing Platform Integration with Wazuh Tutorial"
+title: "Malware Information Sharing Platform Integration with Wazuh"
 categories: Lab
 tags:
   - SOC Analyst
