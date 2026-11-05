@@ -1,6 +1,6 @@
 ---
 title: "attack chain - crafting payload: section injection"
-categories: Lab Research
+categories: Research
 tags: attack-chain craft-payload malware stealth
 toc: true
 mermaid: true
