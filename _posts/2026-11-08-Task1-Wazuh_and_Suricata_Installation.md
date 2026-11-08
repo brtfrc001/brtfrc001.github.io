@@ -1,7 +1,7 @@
 ---
 title: Wazuh and Suricata Installation
 date: 2026-11-08
-categories: SOC Lab
+categories: Lab SOC
 tags: Wazuh Suricata
 toc: true
 mermaid: true
