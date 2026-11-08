@@ -1,6 +1,6 @@
 ---
 title: "Malware Information Sharing Platform Integration with Wazuh"
-categories: Lab
+categories: Lab SOC
 tags:
   - SOC Analyst
   - IDS
