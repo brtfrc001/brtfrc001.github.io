@@ -7,7 +7,7 @@ toc: true
 mermaid: true
 share: true
 slug: 2026-11-09-Task2-suricata_wazuh_integration
-attachmentLinks: /assets/images/Task2-suricata_wazuh_integration
+attachmentLinks: /assets/images/Task2-suricata_wazuh_integration/
 media_subpath: /assets/images/Task2-suricata_wazuh_integration/
 ---
 
