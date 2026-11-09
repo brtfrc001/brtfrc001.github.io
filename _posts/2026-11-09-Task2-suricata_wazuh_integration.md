@@ -7,7 +7,6 @@ toc: true
 mermaid: true
 share: true
 slug: 2026-11-09-Task2-suricata_wazuh_integration
-media_subpath: /assets/images/Task2-suricata_wazuh_integration/
 ---
 
 This is the integration of IDS (Wazuh) with the network monitoring tool Suricata, below is the lab setup as we've established in the previous post.
