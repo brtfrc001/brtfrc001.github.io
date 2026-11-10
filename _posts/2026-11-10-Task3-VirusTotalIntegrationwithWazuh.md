@@ -17,13 +17,13 @@ For more refer to official docs: https://documentation.wazuh.com/current/user-ma
 ## Lab setup
 I want to remind you of the lab setup from the previous labs of the category "SOC".
 ![Pasted image 20261110205727](assets/images/Task3-VirusTotalIntegrationwithWazuh/Pasted%20image%2020261110205727.png)
-### Get API Key & Configure Wazuh Integration
+## Get API Key & Configure Wazuh Integration
 We will use public API, it is a REST API, and by registering an account, I then copy my API key at https://www.virustotal.com/gui/my-apikey and paste in `/var/ossec/etc/ossec.conf` in `<integration>` block in the Wazuh server.
 Refer to official docs: https://documentation.wazuh.com/current/user-manual/manager/integration-with-external-apis.html 
 ![Pasted image 20261005135437](assets/images/Task3-VirusTotalIntegrationwithWazuh/Pasted%20image%2020261005135437.png)
 And then restart to apply new configurations.
 ![Pasted image 20261005135540](assets/images/Task3-VirusTotalIntegrationwithWazuh/Pasted%20image%2020261005135540.png)
-To configure VirusTotal to monitor a specific directory, we edit the configurations at `/var/ossec/etc/ossec.conf` again and modify `<syscheck>` section.
+To configure VirusTotal to monitor a specific directory, we edit the configurations at `/var/ossec/etc/ossec.conf` again and modify `<syscheck>` block.
 ![Pasted image 20261005140649](assets/images/Task3-VirusTotalIntegrationwithWazuh/Pasted%20image%2020261005140649.png)
 And then restart the manager to apply configurations.
 ![Pasted image 20261005140813](assets/images/Task3-VirusTotalIntegrationwithWazuh/Pasted%20image%2020261005140813.png)
