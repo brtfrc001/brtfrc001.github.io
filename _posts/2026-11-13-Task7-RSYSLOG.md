@@ -160,3 +160,11 @@ The complete JSON log.
   }
 }
 ```
+#### Alert Key Values
+
+- "_source.description": "sshd: Attempt to login using a non-existent user"
+- "_source.data.srcuser":"testuser"
+- "_source.groups": "syslog", ..
+- "timestamp": "2026-10-19T12:51:12.070Z"
+
+It is the same info from the message I sent earlier using `logger` to trigger the alert, the timestamp also confirms it.
