@@ -1,8 +1,8 @@
 ---
 title: Suricata Network Sensor
 date: 2026-11-15
-categories: Lab
-tags:
+categories: Lab SOC
+tags: IDS NIDS Suricata
 toc: true
 mermaid: true
 share: true
