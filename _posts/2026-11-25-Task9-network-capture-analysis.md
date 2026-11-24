@@ -1,5 +1,5 @@
 ---
-title: Task9-network-capture-analysis
+title: Network Capture Analysis
 date: 2026-11-25
 categories: SOC Lab
 tags:
