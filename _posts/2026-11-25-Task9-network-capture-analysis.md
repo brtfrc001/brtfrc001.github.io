@@ -23,11 +23,13 @@ In this post we're analyzing a PCAP file using Wireshark and our goal is to find
 - Beacon timing
 
 To simplify some terminology, C2 is short for **Command & Control** and it refers to the role a malicious server is taking in controlling the victim's machine, or a command such as sending TCP SYN requests in an automated way to flood the target and cause a **Denial of Service (DoS) attack**, furthermore if the threat actor had control over too many victims' machines, then they would initiate the attack from everywhere all at once which is known as **Distributed Denial of Service (DDoS) attack**. 
+
 The victim machines that are controlled by the threat actor but not yet utilized in a way that makes them detected, are called **Zombies**, **Bots** or **Botnet**, they occasionally send requests to the C2 server, the frequency, the timing and even the protocol used is based on the beacon, which is a software on the victim side, the **beaconing** as a technique is the heart of the C2 tactic.
 ## DNS
 Filtering `dns` there's 3 endpoints involved, the DNS servers and the victim.
 ![Pasted image 20261026145027](assets/images/Task9-network-capture-analysis/Pasted%20image%2020261026145027.png)
 Because of what could be misinterpreted as abnormal behavior, that it is using so many different ports for DNS, at first I thought:
+
 > This number of ports are opened to hide the persistence and command and control port and it is a sub-technique of Traffic Signaling called Port Knocking according to MITRE ATT&CK(https://attack.mitre.org/techniques/T1205) as part of the Command and Control tactic.
 
 However, the packets' byte sizes are not constant, differing in a range of (200-500 bytes) which eliminates the C2 communication suspicion, this behavior is benign and the randomization of source ports is even secure for DNS as a measure against DNS spoofing , because it makes it harder on the attacker to know which is used for sending the DNS request.
