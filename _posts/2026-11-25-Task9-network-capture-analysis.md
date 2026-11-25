@@ -22,7 +22,7 @@ In this post we're analyzing a PCAP file using Wireshark and our goal is to find
 - C2 server IP and geolocation 
 - Beacon timing
 
-To simplify some terminology, C2 is short for **Command & Control** and it refers to the role a malicious server is taking in controlling the victim's machine, or a command such as sending TCP SYN requests in an automated way to flood the target and cause a **Denial of Service (DoS)** attack, furthermore if the threat actor had control over too many victims' machines, then they would initiate the attack from everywhere all at once which is known as **Distributed Denial of Service (DDoS) attack**. 
+To simplify some terminology, C2 is short for **Command & Control** and it refers to the role a malicious server is taking in controlling the victim's machine, or a command such as sending TCP SYN requests in an automated way to flood the target and cause a **Denial of Service (DoS)** attack, furthermore if the threat actor had control over too many victims' machines, then they would initiate the attack from everywhere all at once which is known as **Distributed Denial of Service (DDoS)** attack. 
 
 The victim machines (compromised endpoints) that are controlled by the threat actor but not yet utilized in a way that makes them detected - not that they are undetectable - are called **Zombies**, **Bots** or **Botnet**, they occasionally send requests to the C2 server, the frequency, the timing and even the protocol used is based on the beacon, which is a software on the victim side, the **beaconing** as a technique is the heart of the C2 tactic.
 
