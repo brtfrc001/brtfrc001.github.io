@@ -1,7 +1,7 @@
 ---
 title: Network Capture Analysis
 date: 2026-11-25
-categories: SOC Lab
+categories: Lab SOC
 tags:
   - network-analysis
   - pcap
