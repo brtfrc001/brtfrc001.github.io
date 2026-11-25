@@ -22,9 +22,13 @@ In this post we're analyzing a PCAP file using Wireshark and our goal is to find
 - C2 server IP and geolocation 
 - Beacon timing
 
-To simplify some terminology, C2 is short for **Command & Control** and it refers to the role a malicious server is taking in controlling the victim's machine, or a command such as sending TCP SYN requests in an automated way to flood the target and cause a **Denial of Service (DoS) attack**, furthermore if the threat actor had control over too many victims' machines, then they would initiate the attack from everywhere all at once which is known as **Distributed Denial of Service (DDoS) attack**. 
+To simplify some terminology, C2 is short for **Command & Control** and it refers to the role a malicious server is taking in controlling the victim's machine, or a command such as sending TCP SYN requests in an automated way to flood the target and cause a **Denial of Service (DoS)** attack, furthermore if the threat actor had control over too many victims' machines, then they would initiate the attack from everywhere all at once which is known as **Distributed Denial of Service (DDoS) attack**. 
 
-The victim machines that are controlled by the threat actor but not yet utilized in a way that makes them detected, are called **Zombies**, **Bots** or **Botnet**, they occasionally send requests to the C2 server, the frequency, the timing and even the protocol used is based on the beacon, which is a software on the victim side, the **beaconing** as a technique is the heart of the C2 tactic.
+The victim machines (compromised endpoints) that are controlled by the threat actor but not yet utilized in a way that makes them detected - not that they are undetectable - are called **Zombies**, **Bots** or **Botnet**, they occasionally send requests to the C2 server, the frequency, the timing and even the protocol used is based on the beacon, which is a software on the victim side, the **beaconing** as a technique is the heart of the C2 tactic.
+
+You might ask how are the compromised endpoints or the zombies are not detected while they are literally sending requests to a malicious IP? well there are many detection evasion techniques utilized by threat actors, but before even bringing that deep topic into the conversation, the malicious IP or Domain Name may not yet be known to be malicious, only when an incident happens due to a particular group or an **Advanced Persistent Threat (APT)** starting a campaign on their target, then an investigation will take place and find malicious IPs and other **Indicators of Compromise (IoC)** to update **Cyber Threat Intelligence (CTI)** databases or feeds with.
+
+I wanted to bring in more context to not be misunderstood when I explained what a botnet is, with that said let's dive in.
 ## DNS
 Filtering `dns` there's 3 endpoints involved, the DNS servers and the victim.
 ![Pasted image 20261026145027](assets/images/Task9-network-capture-analysis/Pasted%20image%2020261026145027.png)
